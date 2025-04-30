@@ -28,12 +28,12 @@ function Uploaded() {
     exifData, // Add exifData state if needed
   } = useSelector((state) => state.upload);
 
-  // Add useEffect to handle navigation when analysisResult is available
-  useEffect(() => {
-    if (analysisResult) {
-      navigate("/review");
-    }
-  }, [analysisResult, navigate]);
+  // // Add useEffect to handle navigation when analysisResult is available
+  // useEffect(() => {
+  //   if (analysisResult) {
+  //     navigate("/review");
+  //   }
+  // }, [analysisResult, navigate]);
 
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);

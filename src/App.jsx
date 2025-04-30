@@ -36,14 +36,15 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/gallery" element={<Gallery />} />
-        {/* <Route
-          path="/gallery/:id"
+        <Route
+          path="/gallery"
           element={
             <ProtectedRoute>
               <Gallery />
             </ProtectedRoute>
-          } */}
+          }
+        />
+
         <Route
           path="/dashboard"
           element={

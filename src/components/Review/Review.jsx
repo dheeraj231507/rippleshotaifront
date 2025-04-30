@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Download,
   Share2,
@@ -11,43 +12,51 @@ import {
 import Header from "../common/Header";
 
 function Review() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get the uploaded image's response from Redux
+  const uploadAnalysis = useSelector((state) => state.upload.analysisResult);
+
+  // Get the selected image's data from the Gallery (via useLocation)
+  const galleryPhoto = location.state?.photo;
+
+  // Determine which data to use (uploaded image or gallery image)
+  const analysis = galleryPhoto?.analysis || uploadAnalysis?.analysis;
+  const imageUrl = galleryPhoto?.imageUrl || uploadAnalysis?.imageUrl;
+  const exifData = galleryPhoto?.exifData || uploadAnalysis?.exifData;
+
   const [activeTab, setActiveTab] = useState("Summary"); // Track active tab
 
-  const analysis = useSelector((state) => state.upload.analysisResult);
+  if (!analysis) {
+    return (
+      <div className="text-white text-center mt-20">
+        <h1>No analysis data available</h1>
+        <button
+          className="text-blue-500 underline mt-4"
+          onClick={() => navigate("/gallery")}
+        >
+          Go to Gallery
+        </button>
+      </div>
+    );
+  }
 
-  const technicalDetails = analysis?.exifData
+  const technicalDetails = exifData
     ? [
-        {
-          label: "CameraProfiles.Model",
-          value: analysis?.exifData?.Model || "N/A",
-        },
-        {
-          label: "CameraProfiles.Lens",
-          value: analysis?.exifData?.LensModel || "N/A",
-        },
-        {
-          label: "FocalLength",
-          value: analysis?.exifData?.FocalLength || "N/A",
-        },
-        {
-          label: "ShutterSpeed",
-          value: analysis?.exifData?.ShutterSpeedValue || "N/A",
-        },
-        { label: "Aperture", value: analysis.exifData.ApertureValue || "N/A" },
-        { label: "ISO", value: analysis?.exifData?.ISO || "N/A" },
+        { label: "Camera Model", value: exifData.Model || "N/A" },
+        { label: "Lens Model", value: exifData.LensModel || "N/A" },
+        { label: "Focal Length", value: exifData.FocalLength || "N/A" },
+        { label: "Shutter Speed", value: exifData.ShutterSpeedValue || "N/A" },
+        { label: "Aperture", value: exifData.ApertureValue || "N/A" },
+        { label: "ISO", value: exifData.ISO || "N/A" },
       ]
     : [];
 
-  // Parse the analysis result from Redux
   const parseAnalysis = (analysis) => {
     try {
-      // Extract the JSON string from the analysis content
       const jsonStr = analysis.content.match(/```json\n([\s\S]*?)\n```/)[1];
-
-      // Replace invalid JSON values like N/A with null
       const sanitizedJsonStr = jsonStr.replace(/\bN\/A\b/g, "null");
-
-      // Parse the sanitized JSON string
       const data = JSON.parse(sanitizedJsonStr);
 
       const scores = [
@@ -122,23 +131,18 @@ function Review() {
     }
   };
 
-  // Get analysis from Redux (you'll need to connect this component to Redux)
-  const { scores, feedbacks, overallScore, genre, potential } = analysis
-    ? parseAnalysis(analysis.analysis)
-    : {
-        scores: [],
-        feedbacks: [],
-        overallScore: 0,
-        genre: "Unknown",
-        potential: "",
-      };
+  const { scores, feedbacks, overallScore, genre, potential } =
+    parseAnalysis(analysis);
 
   return (
     <>
       <Header isAuthenticated={true} />
 
       <div className="max-w-[1200px] w-full mx-auto px-4 pt-24 pb-8">
-        <button className="text-white flex justify-start items-center gap-3 mb-7">
+        <button
+          className="text-white flex justify-start items-center gap-3 mb-7"
+          onClick={() => navigate("/gallery")}
+        >
           <MoveLeft size={15} />
           <span>Back To Gallery</span>
         </button>
@@ -147,9 +151,9 @@ function Review() {
           <div className="w-full lg:w-1/2">
             <div className="bg-black text-white rounded-lg overflow-hidden shadow-lg">
               <div className="w-full h-64 sm:h-80 bg-gray-300 flex items-center justify-center rounded-lg relative">
-                {analysis?.imageUrl ? (
+                {imageUrl ? (
                   <img
-                    src={analysis.imageUrl}
+                    src={imageUrl}
                     alt="Uploaded photo"
                     className="w-full h-full object-cover rounded-lg"
                   />
