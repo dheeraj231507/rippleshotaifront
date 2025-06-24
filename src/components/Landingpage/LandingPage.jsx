@@ -6,7 +6,7 @@ import Fourth from "./fourth/Fourth";
 import Fifth from "./fifth/Fifth";
 import Sixth from "./sixth/Sixth";
 import Rights from "../RightsandReservefooter/Rights";
-import Header from "../common/Header";
+import Header from "../Common/Header";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
