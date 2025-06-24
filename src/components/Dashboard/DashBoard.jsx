@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, Image, Lightbulb, Upload } from "lucide-react";
-import Header from "../common/Header";
+import Header from "../Common/Header";
 import { Link } from "react-router-dom";
 
 function DashBoard() {
