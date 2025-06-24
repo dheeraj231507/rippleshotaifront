@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Image, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGalleryThunk } from "../../features/gallery/gallery.thunk";
-import Header from "../common/Header";
-import Loader from "../common/Loader";
+import Header from "../Common/Header";
+import Loader from "../Common/Loader";
 import { useNavigate } from "react-router-dom";
 
 function Gallery() {
