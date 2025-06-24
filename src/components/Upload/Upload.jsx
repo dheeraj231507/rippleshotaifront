@@ -10,7 +10,7 @@ import {
   setExifData,
 } from "../../features/upload/upload.slice.js";
 import { Camera, Upload, Loader } from "lucide-react"; // Import the loader icon
-import Header from "../common/Header";
+import Header from "../Common/Header";
 import { uploadPhotoThunk } from "../../features/upload/upload.thunk.js";
 import * as exifr from "exifr"; // Import exifr for EXIF data extraction
 
