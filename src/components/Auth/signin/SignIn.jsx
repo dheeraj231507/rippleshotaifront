@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Camera, Loader } from "lucide-react"; // Import Loader
 import { useNavigate, Link } from "react-router-dom"; // Import Link
 import { useDispatch, useSelector } from "react-redux"; // Import useSelector
-import Header from "../../common/Header.jsx";
+import Header from "../../Common/Header";
 import { registerUserThunk } from "../../../features/auth/auth.thunk";
 
 const SignIn = () => {
