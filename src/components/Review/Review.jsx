@@ -9,7 +9,7 @@ import {
   ThumbsDown,
   MoveLeft,
 } from "lucide-react";
-import Header from "../common/Header";
+import Header from "../Common/Header";
 
 function Review() {
   const location = useLocation();
