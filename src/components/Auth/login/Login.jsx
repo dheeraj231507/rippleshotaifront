@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Camera, Loader } from "lucide-react";
-import Header from "../../common/Header";
+import Header from "../../Common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserThunk } from "../../../features/auth/auth.thunk";
 
